@@ -1,0 +1,5 @@
+{% for application in object_list %}
+    <li>{{ application.name }} - {{ application.owner }}: {{ application.description }}</li>
+{% empty %}
+    <li>No applications</li>
+{% endfor %}

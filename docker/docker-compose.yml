@@ -1,0 +1,24 @@
+version: '3.5'
+services:
+  app:
+    image: tags
+    build: .
+    container_name: tags
+    environment:
+      - SQLITE_PATH=${SQLITE_PATH}
+      - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - migration
+    volumes:
+      - /srv/test/:${SQLITE_PATH}
+  migration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: appli_migration
+    environment:
+      - SQLITE_PATH=${SQLITE_PATH}
+    volumes:
+      - /srv/test/:${SQLITE_PATH}

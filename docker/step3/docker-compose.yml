@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  app:
+    image: tags
+    build: .
+    container_name: tags_step3
+    environment:
+      - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}

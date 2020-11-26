@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+  app:
+    image: tags
+    build: .
+    container_name: tags_step2
+    ports:
+      - 8000:8000

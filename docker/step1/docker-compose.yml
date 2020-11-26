@@ -1,0 +1,8 @@
+version: '3.5' # Docker compose version
+services: # Service that will be run by docker compose
+  app: # Name of the service
+    image: tags # Name of the image when built
+    build: . # Context of the build
+    container_name: tags_step1 # Name of the docker container when it will be run
+    ports: # Port forwarding between machines docker containers
+      - 8000:8000

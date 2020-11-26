@@ -1,0 +1,52 @@
+version: '3.5'
+services:
+  app:
+    image: tags
+    build: .
+    container_name: tags_step5
+    environment:
+      SQLITE_PATH: ${SQLITE_PATH}
+      PORT: ${PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: 'db'
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - migration
+      - db
+    networks:
+      - db_network
+    volumes:
+      - /srv/test/:${SQLITE_PATH}
+  migration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: appli_migration
+    environment:
+      SQLITE_PATH: ${SQLITE_PATH}
+      PORT: ${PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: 'db'
+    volumes:
+      - /srv/test/:${SQLITE_PATH}
+    networks:
+      - db_network
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - db_network
+
+networks:
+  db_network:
+    driver: bridge
